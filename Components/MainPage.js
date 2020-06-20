@@ -48,6 +48,21 @@ class MainPage extends Component {
   render() {
     var l_data = []
     var l_SubCategory = []
+    var l_leftIcon, l_RightIcon;
+
+    if(this.state.selectedCategory > -1)
+    {
+      l_leftIcon = <TouchableOpacity onPress={this.OnBackClick}><Icon name="arrow-circle-left" size={30} color="#fff" /></TouchableOpacity>
+      l_RightIcon = <Icon name="shopping-cart" size={30} color="#fff" />
+    }
+    else
+    {
+      l_leftIcon = <TouchableOpacity onPress={() => this.props.navigation.openDrawer()}><Icon name="bars" size={30} color="#fff" /></TouchableOpacity>
+      l_RightIcon = ""
+    }
+
+
+    
 
     for (let i = 0; i < 7; i++) {
       if (i == 0) {
@@ -131,15 +146,17 @@ class MainPage extends Component {
               contentInsetAdjustmentBehavior="automatic"
               style={styles.scrollView}>
               <Header
-                leftComponent={<TouchableOpacity onPress={() => this.props.navigation.openDrawer()}><Icon name="bars" size={30} color="#fff" /></TouchableOpacity>}
+                leftComponent={l_leftIcon}
                 centerComponent={{ text: 'AG Home Application', style: { color: '#fff', fontSize: 20, fontWeight: 'bold' } }}
-                 rightComponent={this.state.selectedCategory > -1 ? <TouchableOpacity onPress={this.OnBackClick}><Icon name="arrow-circle-left" size={30} color="#fff" /></TouchableOpacity>: ""}
+                 rightComponent={l_RightIcon}
                 containerStyle={{
                   backgroundColor: '#FADA5E',
                   justifyContent: 'space-around',
                 }}
               />
-              <SliderBox images={this.state.images} style={{ margin: 5, borderRadius: 6, width: null, height: 200 }} autoplay circleLoop />
+              {this.state.selectedCategory < 0 ?
+              <SliderBox images={this.state.images} style={{ margin: 5, borderRadius: 6, width: null, height: 200 }} autoplay circleLoop /> : <></>
+              }
               <View style={styles.container}>
                 {this.state.selectedCategory > -1 ?
                   l_SubCategory
